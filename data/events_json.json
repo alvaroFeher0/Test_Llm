@@ -1,0 +1,8 @@
+[
+  {"action": "GOL", "playerId": "1", "finalized": true},
+  {"action": "ASSISTENCIA", "playerId": "2", "finalized": true},
+  {"action": "FALTA", "playerId": "2", "finalized": true},
+  {"action": "GOL", "playerId": "3", "finalized": true},
+  {"action": "ATURADA", "playerId": "6", "finalized": true},
+  {"action": "ASSISTENCIA", "playerId": "4", "finalized": true}
+]

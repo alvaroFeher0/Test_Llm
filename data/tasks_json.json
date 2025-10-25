@@ -1,0 +1,152 @@
+[
+  {
+    "id": "T-001",
+    "title": "Implement login API",
+    "created_at": "2025-10-13T08:15:00+02:00",
+    "completed_at": "2025-10-13T17:40:00+02:00",
+    "duration_minutes": 120,
+    "points": 3,
+    "tags": ["backend", "auth"],
+    "status": "done"
+  },
+  {
+    "id": "T-002",
+    "title": "Fix session bug",
+    "created_at": "2025-10-13T18:00:00+02:00",
+    "completed_at": "2025-10-14T10:05:00+02:00",
+    "duration_minutes": 45,
+    "points": 1,
+    "tags": ["bugfix"],
+    "status": "done"
+  },
+  {
+    "id": "T-003",
+    "title": "Write unit tests for user service",
+    "created_at": "2025-10-14T09:00:00+02:00",
+    "completed_at": "2025-10-14T16:30:00+02:00",
+    "duration_minutes": 95,
+    "points": 2,
+    "tags": ["tests"],
+    "status": "done"
+  },
+  {
+    "id": "T-004",
+    "title": "Design DB schema for audit logs",
+    "created_at": "2025-10-15T11:20:00+02:00",
+    "completed_at": "2025-10-15T18:05:00+02:00",
+    "duration_minutes": 80,
+    "points": 2,
+    "tags": ["design", "database"],
+    "status": "done"
+  },
+  {
+    "id": "T-005",
+    "title": "Spike: evaluate Redis vs. KeyDB",
+    "created_at": "2025-10-15T09:30:00+02:00",
+    "completed_at": "2025-10-16T12:10:00+02:00",
+    "duration_minutes": 60,
+    "points": 1,
+    "tags": ["spike", "caching"],
+    "status": "done"
+  },
+  {
+    "id": "T-006",
+    "title": "Frontend UI polish (settings page)",
+    "created_at": "2025-10-16T10:00:00+02:00",
+    "completed_at": "2025-10-16T17:20:00+02:00",
+    "duration_minutes": 110,
+    "points": 2,
+    "tags": ["frontend", "ux"],
+    "status": "done"
+  },
+  {
+    "id": "T-007",
+    "title": "Refactor payment webhook handler",
+    "created_at": "2025-10-16T14:00:00+02:00",
+    "completed_at": "2025-10-17T11:50:00+02:00",
+    "duration_minutes": 75,
+    "points": 2,
+    "tags": ["backend", "payments"],
+    "status": "done"
+  },
+  {
+    "id": "T-008",
+    "title": "Add metrics to Prometheus dashboard",
+    "created_at": "2025-10-17T09:10:00+02:00",
+    "completed_at": "2025-10-17T15:45:00+02:00",
+    "duration_minutes": 85,
+    "points": 2,
+    "tags": ["observability"],
+    "status": "done"
+  },
+  {
+    "id": "T-009",
+    "title": "Support dark mode toggle",
+    "created_at": "2025-10-18T10:30:00+02:00",
+    "completed_at": "2025-10-18T13:25:00+02:00",
+    "duration_minutes": 60,
+    "points": 1,
+    "tags": ["frontend", "ux"],
+    "status": "done"
+  },
+  {
+    "id": "T-010",
+    "title": "Research GDPR export flow",
+    "created_at": "2025-10-18T15:00:00+02:00",
+    "completed_at": null,
+    "duration_minutes": null,
+    "points": 1,
+    "tags": ["research", "compliance"],
+    "status": "in_progress"
+  },
+  {
+    "id": "T-011",
+    "title": "Optimize Postgres indexes",
+    "created_at": "2025-10-19T09:00:00+02:00",
+    "completed_at": "2025-10-19T18:00:00+02:00",
+    "duration_minutes": 130,
+    "points": 3,
+    "tags": ["database", "performance"],
+    "status": "done"
+  },
+  {
+    "id": "T-012",
+    "title": "E2E tests for checkout flow",
+    "created_at": "2025-10-20T08:20:00+02:00",
+    "completed_at": "2025-10-20T12:30:00+02:00",
+    "duration_minutes": 100,
+    "points": 2,
+    "tags": ["tests", "e2e"],
+    "status": "done"
+  },
+  {
+    "id": "T-013",
+    "title": "Document deployment runbook",
+    "created_at": "2025-10-20T13:10:00+02:00",
+    "completed_at": "2025-10-20T16:05:00+02:00",
+    "duration_minutes": 65,
+    "points": 1,
+    "tags": ["docs"],
+    "status": "done"
+  },
+  {
+    "id": "T-014",
+    "title": "Fix flaky CI job",
+    "created_at": "2025-10-21T10:00:00+02:00",
+    "completed_at": "2025-10-21T11:40:00+02:00",
+    "duration_minutes": 40,
+    "points": 1,
+    "tags": ["ci", "infra"],
+    "status": "done"
+  },
+  {
+    "id": "T-015",
+    "title": "Customer feedback triage",
+    "created_at": "2025-10-21T14:00:00+02:00",
+    "completed_at": "2025-10-21T17:10:00+02:00",
+    "duration_minutes": 55,
+    "points": 1,
+    "tags": ["support"],
+    "status": "done"
+  }
+]
