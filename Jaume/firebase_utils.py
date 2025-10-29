@@ -36,3 +36,6 @@ def get_players():
 
 def get_matches():
     return _get_collection("matches")
+
+def get_match_actions():
+    return _get_collection("matchActions")

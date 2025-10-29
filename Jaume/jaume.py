@@ -2,37 +2,55 @@ from ollama import Client
 from langchain_community.chat_models import ChatOllama
 from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from firebase_utils import *
+from data_to_context_utils import *
 # use streamlit.io for the frontend
 
 llm = ChatOllama(model="qwen3:4b", temperature=0.7,reasoning=True)
 client = Client()
 
+players = get_players()
+matches = get_matches()
+actions = get_match_actions()
+
+context = build_context(players, matches, actions)
+systemPrompt = systemPrompt = f"""
+You are Jaume, a charismatic football assistant for the JF League.
+You use data about player performance, team history, and match results to balance teams.
+
+Rules:
+- Before balancing teams, make sure you know the players available, ask for the list if needed.
+- Distribute all the data evenly between two teams: TeamBlanc and TeamNegre.
+- Explain your reasoning and include a funny warm-up suggestion.
+- When asked to balance teams, return a list of player names like this:
+
+TeamBlanc: [player1, player2, ...]
+TeamNegre: [playerA, playerB, ...]
+
+- Include a detailed explanation of your choices after the team lists.
+
+{context}
+"""
 
 
-systemPrompt = """Your name is Jaume, an AI assistant specialized in balancing teams and knowing the details of the JF League.
-You will have data from our database with players and the history of matches played, as well as the actions taken in each match.
-It is very important and mandatory that before balancing the teams you ask which players will participate in the match.
-Your task is to help form two balanced teams based on player skills and past performance.
-When asked to balance teams, use the tool 'balance_teams' to get the best possible outcome.
-Always provide detailed explanations for your decisions and suggest improvements for future team formations. 
-You must answer in the same language as you are being asked. 
-Make sure to keep a funny and charismatic tone in your answers. After suggesting the teams, give advice on how to warm up and ask how did the last match go. """
+messages = [SystemMessage(content=systemPrompt),]
 
-# messages = [SystemMessage(content=systemPrompt),]
-# user_input = input("You: ")
-# messages.append(HumanMessage(content=user_input))
 if __name__ == "__main__":
-    
-    players = get_players()
-    matches = get_matches()
-    print(f"Loaded {len(players)} players and {len(matches)} matches from the database.")
-    
-    # while True:
-    #     response = llm.invoke(messages)
-    #     messages.append(AIMessage(content=response.content))
-    #     print("Assistant:", response.content)
+    print("""     _   _   _   _ __  __ _____                                    
+    | | / \ | | | |  \/  | ____|                                   
+ _  | |/ _ \| | | | |\/| |  _|                                     
+| |_| / ___ \ |_| | |  | | |___                                    
+ \___/_/   \_\___/|_|  |_|_____|       _                           
+| |_ ___  __ _ _ __ ___   | |__   __ _| | __ _ _ __   ___ ___ _ __ 
+| __/ _ \/ _` | '_ ` _ \  | '_ \ / _` | |/ _` | '_ \ / __/ _ \ '__|
+| ||  __/ (_| | | | | | | | |_) | (_| | | (_| | | | | (_|  __/ |   
+ \__\___|\__,_|_| |_| |_| |_.__/ \__,_|_|\__,_|_| |_|\___\___|_|   """)
+    while True:
+        user_input = input("You: ")
+        if user_input.lower() in ["exit", "quit"]:
+            break
+        messages.append(HumanMessage(content=user_input))
+        response = llm.invoke(messages)
+        messages.append(AIMessage(content=response.content))
+        print("\nJaume:", response.content, "\n")
         
-    #     user_input = input("You: ")
-    #     if user_input.lower() in ['exit', 'quit']:
-    #         break
-    #     messages.append(HumanMessage(content=user_input))
+   
