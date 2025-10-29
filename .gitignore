@@ -1,0 +1,31 @@
+# ---- Node / Next.js
+node_modules/
+.next/
+out/
+dist/
+build/
+.cache/
+.turbo/
+.yarn/**
+.pnp.*
+.npm/
+.vscode/
+.vercel/
+
+# ---- Python / Streamlit
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.streamlit/
+
+# ---- General
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+# ---- Firebase secrets
+serviceAccountKey.json
