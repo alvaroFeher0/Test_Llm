@@ -11,9 +11,12 @@ client = Client()
 players = get_players()
 matches = get_matches()
 actions = get_match_actions()
-
+# de cada player q saque una puntuacion
+# normalizar las puntuaciones
+# al systenm no hay que darlae acciones, es describir lo que es y como lo ha de hacer
+# meter un human msg q diga que quiero
 context = build_context(players, matches, actions)
-systemPrompt = systemPrompt = f"""
+systemPrompt = f"""
 You are Jaume, a charismatic football assistant for the JF League.
 You use data about player performance, team history, and match results to balance teams.
 
@@ -34,6 +37,8 @@ TeamNegre: [playerA, playerB, ...]
 
 messages = [SystemMessage(content=systemPrompt),]
 
+# add streaming of the tokens 
+
 if __name__ == "__main__":
     print("""     _   _   _   _ __  __ _____                                    
     | | / \ | | | |  \/  | ____|                                   
@@ -45,12 +50,21 @@ if __name__ == "__main__":
 | ||  __/ (_| | | | | | | | |_) | (_| | | (_| | | | | (_|  __/ |   
  \__\___|\__,_|_| |_| |_| |_.__/ \__,_|_|\__,_|_| |_|\___\___|_|   """)
     while True:
-        user_input = input("You: ")
+        user_input = input("\n\nYou: ")
         if user_input.lower() in ["exit", "quit"]:
             break
         messages.append(HumanMessage(content=user_input))
-        response = llm.invoke(messages)
-        messages.append(AIMessage(content=response.content))
-        print("\nJaume:", response.content, "\n")
+        #response = llm.invoke(messages)
+        #messages.append(AIMessage(content=response.content))
+        print("\n\nJaume: ", end="", flush=True)
+        response_text = ""
+        for chunk in llm.stream(messages):
+            token = chunk.content
+            print(token, end="", flush=True)
+            response_text += token
+
+        messages.append(AIMessage(content=response_text))
+        print()
+
         
    
