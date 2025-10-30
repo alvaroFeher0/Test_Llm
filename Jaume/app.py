@@ -4,7 +4,7 @@ from firebase_utils import get_players, get_matches, get_match_actions
 from data_to_context_utils import build_context
 
 st.set_page_config(page_title="JF League Assistant", page_icon="⚽", layout="centered")
-st.title("⚽ Jaume – JF League Assistant")
+st.title("⚽ Jaume – JF League Team Balancer")
 
 with st.spinner("Loading league data..."):
     players = get_players()
