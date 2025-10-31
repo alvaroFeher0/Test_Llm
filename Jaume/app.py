@@ -17,7 +17,8 @@ context = build_context(players, matches, actions)
 
 #client = Client()
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+#client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 system_prompt = f"""
 You are Jaume, a charismatic football assistant for the JF League.
