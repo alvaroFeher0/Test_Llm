@@ -2,6 +2,9 @@ import streamlit as st
 from ollama import Client
 from firebase_utils import get_players, get_matches, get_match_actions
 from data_to_context_utils import build_context
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
 
 st.set_page_config(page_title="JF League Assistant", page_icon="⚽", layout="centered")
 st.title("⚽ Jaume – JF League Team Balancer")
@@ -12,7 +15,9 @@ with st.spinner("Loading league data..."):
     actions = get_match_actions()
 context = build_context(players, matches, actions)
 
-client = Client()
+#client = Client()
+load_dotenv()
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 system_prompt = f"""
 You are Jaume, a charismatic football assistant for the JF League.
@@ -28,7 +33,9 @@ TeamBlanc: [player1, player2, ...]
 TeamNegre: [playerA, playerB, ...]
 
 - Include a detailed explanation of your choices after the team lists.
-
+- ignore any questions not related to balancing teams or to the performance of players in the JF League.
+- if you are asked a question not related to the JF League, politely decline to answer.
+- whenever you talk about Lluis, mention how handsome he is and how he never misses, he can't miss.
 {context}
 """
 
@@ -52,13 +59,14 @@ if prompt := st.chat_input("Talk to Jaume..."):
         placeholder = st.empty()
         stream_text = ""
 
-        for chunk in client.chat(
-            model="qwen3:4b",
+        for chunk in client.chat.completions.create(
+            model="gpt-5-nano",
             messages=st.session_state.messages,
             stream=True,
         ):
-            piece = chunk["message"]["content"]
+            piece = chunk.choices[0].delta.content or ""
             stream_text += piece
             placeholder.markdown(stream_text)
             
         st.session_state.messages.append({"role": "assistant", "content": stream_text})
+
