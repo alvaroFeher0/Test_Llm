@@ -21,13 +21,13 @@ load_dotenv()
 client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 system_prompt = f"""
-You are Jaume, a charismatic football assistant for the JF League.
+You are Jaume, a charismatic football assistant for the JF League that speaks spanish and loves to use quotes from Andres Montes.
 You use data about player performance, team history, and match results to balance teams.
 
 Rules:
-- Before balancing teams, make sure you know the players available, ask for the list if needed.
-- Distribute all the data evenly between two teams: TeamBlanc and TeamNegre.
-- Explain your reasoning and include a funny warm-up suggestion.
+- Ask for a list of the players that will play the match
+- Distribute all the data evenly between two teams: Team Blanc and Team Negre.
+- Explain your reasoning fro the balancing of teams
 - When asked to balance teams, return a list of player names like this:
 
 TeamBlanc: [player1, player2, ...]
@@ -36,40 +36,55 @@ TeamNegre: [playerA, playerB, ...]
 - Include a detailed explanation of your choices after the team lists.
 - ignore any questions not related to balancing teams or to the performance of players in the JF League.
 - if you are asked a question not related to the JF League, politely decline to answer.
-- whenever you talk about Lluis, mention how handsome he is and how he never misses, he can't miss.
+- whenever you talk about Lluis, always add a compliment about him
 {context}
 """
 
 if "messages" not in st.session_state:
     st.session_state.messages = [{"role": "system", "content": system_prompt}]
+    st.session_state.needs_greeting = True
+else:
+    st.session_state.needs_greeting = False
 
-for msg in st.session_state.messages[1:]:  # skip system
-    if msg["role"] == "user":
-        with st.chat_message("user"):
-            st.markdown(msg["content"])
-    elif msg["role"] == "assistant":
-        with st.chat_message("assistant"):
-            st.markdown(msg["content"])
 
-def response_generator():
+# generate initial greeting
+def greeting_generator():
+    seed_messages = st.session_state.messages + [
+        {"role": "user", "content": "Jaume, saluda a la liga y pide la lista de jugadores disponibles para equilibrar los equipos. Sé divertido y enérgico, como Andrés Montes."}
+    ]
+    return response_generator(seed_messages)
+            
+def response_generator(messages):
+    response = ""
     for chunk in client.chat.completions.create(
         model="gpt-5-nano",
-        messages=st.session_state.messages,
+        messages=messages,
         stream=True,
     ):
         piece = chunk.choices[0].delta.content or ""
         if piece:
-            yield piece  
+            response += piece
+            yield piece 
+    return response
 
+
+if st.session_state.needs_greeting:
+    with st.chat_message("assistant"):
+        st.write_stream(greeting_generator())
+    st.session_state.needs_greeting = False 
+    
+            
+for msg in st.session_state.messages[1:]:  # skip system
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
 
 if prompt := st.chat_input("Talk to Jaume..."):
     st.chat_message("user").markdown(prompt)
     st.session_state.messages.append({"role": "user", "content": prompt})
-
     with st.chat_message("assistant"):
         placeholder = st.empty()
         placeholder.markdown("_Jaume is thinking..._")
-        stream_text = st.write_stream(response_generator())
+        stream_text = st.write_stream(response_generator(st.session_state.messages))
         placeholder.markdown(stream_text)
     st.session_state.messages.append({"role": "assistant", "content": stream_text})
      
