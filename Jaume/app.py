@@ -51,6 +51,16 @@ for msg in st.session_state.messages[1:]:  # skip system
         with st.chat_message("assistant"):
             st.markdown(msg["content"])
 
+def response_generator():
+    for chunk in client.chat.completions.create(
+        model="gpt-5-nano",
+        messages=st.session_state.messages,
+        stream=True,
+    ):
+        piece = chunk.choices[0].delta.content or ""
+        if piece:
+            yield piece  
+
 
 if prompt := st.chat_input("Talk to Jaume..."):
     st.chat_message("user").markdown(prompt)
@@ -58,16 +68,9 @@ if prompt := st.chat_input("Talk to Jaume..."):
 
     with st.chat_message("assistant"):
         placeholder = st.empty()
-        stream_text = ""
-
-        for chunk in client.chat.completions.create(
-            model="gpt-5-nano",
-            messages=st.session_state.messages,
-            stream=True,
-        ):
-            piece = chunk.choices[0].delta.content or ""
-            stream_text += piece
-            placeholder.markdown(stream_text)
-            
-        st.session_state.messages.append({"role": "assistant", "content": stream_text})
+        placeholder.markdown("_Jaume is thinking..._")
+        stream_text = st.write_stream(response_generator())
+        placeholder.markdown(stream_text)
+    st.session_state.messages.append({"role": "assistant", "content": stream_text})
+     
 
