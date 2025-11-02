@@ -70,6 +70,8 @@ def response_generator(messages):
 
 if st.session_state.needs_greeting:
     with st.chat_message("assistant"):
+        placeholder = st.empty()
+        placeholder.markdown("_Jaume is thinking..._")
         st.write_stream(greeting_generator())
     st.session_state.needs_greeting = False 
     
@@ -85,7 +87,7 @@ if prompt := st.chat_input("Talk to Jaume..."):
         placeholder = st.empty()
         placeholder.markdown("_Jaume is thinking..._")
         stream_text = st.write_stream(response_generator(st.session_state.messages))
-        placeholder.markdown(stream_text)
+        #placeholder.markdown(stream_text)
     st.session_state.messages.append({"role": "assistant", "content": stream_text})
      
 
